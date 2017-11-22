@@ -1,0 +1,150 @@
+.icon-load{
+    animation: ani-spin 1s linear infinite;
+}
+@keyframes ani-spin {
+    from { transform: rotate(0deg);}
+    50%  { transform: rotate(180deg);}
+    to   { transform: rotate(360deg);}
+}
+
+.canvas{
+  position: absolute;
+  top:0px;
+  left:0px;
+  z-index:1;
+}
+.clearfix{
+  clear: both;
+}
+@keyframes rotate {
+  0% {
+    transform: rotateY(0deg);
+  }
+  100% {
+    transform: rotateY(360deg);
+  }
+}
+
+@-webkit-keyframes rotate {
+  0% {
+    -webkit-transform: rotateY(0deg);
+  }
+  100% {
+    -webkit-transform: rotateY(360deg);
+  }
+}
+
+.clientMsg{
+  width: 180px;
+}
+
+.myNumberInput{
+  width:180px!important;
+}
+
+/*.dataSelect .ivu-select-dropdown{*/
+  /*left:-132px!important;*/
+/*}*/
+.main{
+  min-height:920px;
+}
+
+.ivu-upload-list-file{
+  color:red!important;
+}
+.ivu-upload-list-file-finish{
+  color:green!important;
+}
+
+.layerStyle .ivu-tooltip-popper{
+  position: absolute!important;
+}
+
+.editCell {
+  display: inline-block;
+  width: 33%;
+}
+
+.layerStyle .editCell{
+  display: block;
+  width: auto;
+}
+
+.ivu-message,.ivu-notice{
+  z-index:999999999!important;
+}
+.ivu-modal-mask,.ivu-modal-wrap{
+  z-index:99999!important;
+}
+.ivu-table .warning-row {
+  color: red;
+  display: table-cell;
+}
+.zTop .ivu-modal-mask,.zTop .ivu-modal-wrap{
+  z-index:999999!important;
+}
+.hxLayer .ivu-modal-mask,.hxLayer .ivu-modal-wrap{
+  z-index:99999!important;
+}
+.fileUplod h3{
+  border-left: 6px solid #39f;
+  padding-left: 12px;
+  font-size: 16px;
+  margin:8px 0px;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.5s
+}
+.fade-enter, .fade-leave-active {
+  opacity: 0
+}
+
+.bounce-enter-active {
+  animation: bounce-in .5s;
+}
+.bounce-leave-active {
+  animation: bounce-out .5s;
+}
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes bounce-out {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+
+.slide-fade-enter-active {
+  transition: all .3s ease;
+}
+.slide-fade-leave-active {
+  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter, .slide-fade-leave-active {
+  padding-left: 10px;
+  opacity: 0;
+}
+
+.rspan{
+  text-align: right;
+}
+
+
+.tableCellRight table th,.tableCellRight table td{
+  text-align: right;
+}
