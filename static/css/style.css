@@ -148,3 +148,17 @@
 .tableCellRight table th,.tableCellRight table td{
   text-align: right;
 }
+/*el header下拉菜单*/
+.hx-menu .el-menu--horizontal .el-submenu > .el-menu,.hx-menu .el-menu--horizontal .el-submenu .el-menu-item{
+  background: #fff!important;
+  color:#333!important;
+}
+.hx-menu .el-menu--horizontal .el-submenu .el-menu-item:hover{
+  color: #2196F3!important;
+}
+.hx-menu .el-menu-item-group__title{
+  padding-left:12px!important;
+}
+.hx-menu .el-menu--horizontal .el-submenu .el-menu-item{
+  padding-left:40px!important;
+}

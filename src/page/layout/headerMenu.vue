@@ -3,21 +3,25 @@
     <el-menu
       :router="true"
       default-active="2"
+      mode="horizontal"
       class="el-menu-vertical-demo"
       @open="handleOpen"
-      @close="handleClose">
+      @close="handleClose"
+      background-color="#2196F3"
+      text-color="#fff">
       <template v-for="item1 in menu">
         <!--没有子菜单-->
         <template v-if="item1.child.length===0">
           <el-menu-item :index="item1.index">
             <!--<i class="el-icon-menu"></i>-->
+            <i :class="item1.icon"></i>
             <span slot="title">{{item1.text}}</span>
           </el-menu-item>
         </template>
         <template v-else>
           <el-submenu :index="item1.index">
             <template slot="title">
-              <i class="el-icon-location"></i>
+              <i :class="item1.icon"></i>
               <span>{{item1.text}}</span>
             </template>
             <template v-for="item2 in item1.child">
@@ -27,12 +31,15 @@
               </template>
               <!--二级子菜单-->
               <template v-else>
-                <el-submenu :index="item2.index">
+                <el-menu-item-group :index="item2.index">
                   <template slot="title">{{item2.text}}</template>
                   <template v-for="item3 in item2.child">
-                    <el-menu-item :index="item3.index">{{item3.text}}</el-menu-item>
+                    <el-menu-item :index="item3.index">
+                      <!--<i :class="item3.icon"></i>-->
+                      <span>{{item3.text}}</span>
+                    </el-menu-item>
                   </template>
-                </el-submenu>
+                </el-menu-item-group>
               </template>
             </template>
           </el-submenu>

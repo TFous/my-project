@@ -1,9 +1,9 @@
 <template>
   <div class="main" :class="{'layout-hide-text': menushort}" v-if="isLogin">
-    <div class="layout-menu-left spanLeft" ref="menuLeft" id="menuLeft">
+    <div class="layout-menu-left" ref="menuLeft" id="menuLeft">
       <app-sidebar></app-sidebar>
     </div>
-    <div class="spanRight">
+    <div class="mainCont">
       <app-header></app-header>
       <app-content></app-content>
       <app-footer></app-footer>
@@ -20,6 +20,8 @@
   import Content from './page/layout/Content.vue'
   import {mapActions, mapGetters} from 'vuex'
   import {loggedIn} from './api/auth/auth.js'
+
+  import $ from 'jquery'
 
   @Component({
     name: 'app',
@@ -40,8 +42,24 @@
   })
   export default class App extends Vue {
     msg: string = 'this is a typescript project now'
-    fullHeight: number = window.innerHeight
     menushort: boolean = false
+
+    sideBarToggle () {
+      let dom = $('#menuLeft')
+      let windowHeight = $(document).outerHeight()
+      dom.height(windowHeight - 60)
+      $('.hxlogo').hover(function () {
+        dom.fadeIn()
+      })
+      dom.hover(function () {
+      }, function () {
+        dom.fadeOut()
+      })
+    }
+
+    mounted () {
+      this.sideBarToggle()
+    }
   }
 </script>
 
@@ -54,11 +72,16 @@
     position: relative;
   }
 
-  .spanLeft {
-    width: 230px;
+  #menuLeft {
+    width:230px;
+    position: absolute;
+    top: 60px;
+    left: 0px;
+    box-shadow: rgba(0, 0, 0, .25) 5px 0 5px -5px;
+    background: #fff;
   }
 
-  .spanRight {
+  .mainCont {
     overflow: hidden;
     flex: 1;
   }
@@ -84,15 +107,18 @@
     padding: 10px;
   }
 
-  .layout-copy {
+  .layout-footer {
     text-align: center;
-    padding: 10px 0 20px;
     color: #9ea7b4;
+    font-size:14px;
+    line-height:46px;
+    height:46px;
+    background: #333;
   }
 
-  .layout-menu-left {
-    background: #464c5b;
-  }
+  /*.layout-menu-left {*/
+  /*background: #464c5b;*/
+  /*}*/
 
   .layout-header {
     height: 60px;
