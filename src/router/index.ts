@@ -4,8 +4,6 @@ import store from './../vuex/store.js'
 import menuRoot from './../config/menu'
 // import * as role from '../../src/api/auth/auth'
 
-import HelloWorld from '../components/HelloWorld.vue'
-import HelloWorld3 from '../components/HelloWorld3.vue'
 // 定义动态加载组件方法
 const getComponent:any = (path:String) => require(`./../${path}.vue`)
 
@@ -32,17 +30,6 @@ setO()
 // 定义路由数组
 const routes = []  // history
 
-routes.push({
-  path: '/',
-  name: 'Hello',
-  component: HelloWorld
-})
-
-routes.push({
-  path: '/3',
-  name: 'Hello',
-  component: HelloWorld3
-})
 // 菜单对象转换为routes
 // 最高层定义为module,二级定义为menu，三层定义为subMenu
 menuRoot.forEach((module:any) => {
@@ -52,7 +39,6 @@ menuRoot.forEach((module:any) => {
       // 菜单项增加到路由数组中
       const subMenus:Array<any> = menu.child
       if (subMenus) {
-        console.log(subMenus)
         subMenus.forEach((subMenu:any) => {
           routes.push({
             path: subMenu.path,

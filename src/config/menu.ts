@@ -27,6 +27,16 @@ let item2 = {
   display: true,
   role: '*',
   child: [{
+    name: 'app',
+    text: '首页',
+    index: '/app',
+    icon: 'el-icon-location',
+    display: true,
+    dir: 'page/app',
+    path: '/app',
+    role: '*',
+    child: []
+  }, {
     dir: 'page/test1',
     name: 'test1',
     text: '我的问题',
@@ -80,6 +90,106 @@ let item2 = {
       name: 'test4',
       text: ' 文档日志',
       index: 'test4',
+      icon: 'el-icon-location',
+      role: '*',
+      path: '/test4',
+      display: true,
+      child: []
+    }, {
+      dir: 'page/test4',
+      name: 'test5',
+      text: ' 文档日志111',
+      index: 'test5',
+      icon: 'el-icon-location',
+      role: '*',
+      path: '/test4',
+      display: true,
+      child: []
+    }, {
+      dir: 'page/test4',
+      name: 'test4',
+      text: ' 文档日志222',
+      index: 'test6',
+      icon: 'el-icon-location',
+      role: '*',
+      path: '/test4',
+      display: true,
+      child: []
+    }, {
+      dir: 'page/test4',
+      name: 'test4',
+      text: ' 文档日志333',
+      index: 'test7',
+      icon: 'el-icon-location',
+      role: '*',
+      path: '/test4',
+      display: true,
+      child: []
+    }, {
+      dir: 'page/test4',
+      name: 'test4',
+      text: ' 文档日志444',
+      index: 'test8',
+      icon: 'el-icon-location',
+      role: '*',
+      path: '/test4',
+      display: true,
+      child: []
+    }, {
+      dir: 'page/test4',
+      name: 'test4',
+      text: ' 文档日志555',
+      index: 'test9',
+      icon: 'el-icon-location',
+      role: '*',
+      path: '/test4',
+      display: true,
+      child: []
+    }, {
+      dir: 'page/test4',
+      name: 'test4',
+      text: ' 文档日志666',
+      index: 'test11',
+      icon: 'el-icon-location',
+      role: '*',
+      path: '/test4',
+      display: true,
+      child: []
+    }, {
+      dir: 'page/test4',
+      name: 'test4',
+      text: ' 文档日志777',
+      index: 'test12',
+      icon: 'el-icon-location',
+      role: '*',
+      path: '/test4',
+      display: true,
+      child: []
+    }, {
+      dir: 'page/test4',
+      name: 'test13',
+      text: ' 文档日志888',
+      index: 'test13',
+      icon: 'el-icon-location',
+      role: '*',
+      path: '/test4',
+      display: true,
+      child: []
+    }, {
+      dir: 'page/test4',
+      name: 'test4',
+      text: ' 文档日志999',
+      index: 'test14',
+      icon: 'el-icon-location',
+      role: '*',
+      path: '/test4',
+      display: true,
+      child: []
+    }, {
+      dir: 'page/test4',
+      name: 'test4',
+      text: ' 文档日志101010',
+      index: 'test15',
       icon: 'el-icon-location',
       role: '*',
       path: '/test4',

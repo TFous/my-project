@@ -121,9 +121,16 @@
     }
   }
 </script>
-<style>
+<style lang="scss" type="text/scss" rel="stylesheet/scss">
   .layout-content{
     padding:12px;
     overflow: visible!important;
+  }
+  .layout-content {
+    min-height: 200px;
+    margin: 15px;
+    overflow: hidden;
+    background: #fff;
+    border-radius: 4px;
   }
 </style>

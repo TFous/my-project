@@ -21,28 +21,67 @@
   @Component
   export default class Hello extends Vue {
     msg: string = '2123this is a typescript project now11111'
+//    api: any = Vue.prototype.$api
 
-    mounted () {
+    mounted() {
       this.setMsg('123')
-      this.logMsg()
+      this.logMsg1()
     }
 
     // computed
-    get computedMsg () {
+    get computedMsg() {
       return 'computed ' + this.msg
     }
 
-    get dic () {
+    get dic() {
       return this.$store.state.dicBook.dic.VarietyDict[0]
     }
 
-    setMsg (msg: string) {
+    setMsg(msg: string) {
       this.$store.dispatch('setDic', {demo: msg})
     }
 
-    logMsg () {
-      let dic = this.$store.state.dicBook.dic
-      console.log(dic)
+    logMsgAll() {
+      Promise
+        .all([this.logMsg(), this.logMsg1()])
+        .then(function (results) {
+          console.log(2222)
+          console.log(results)
+        })
+    }
+
+    logMsg() {
+      let url = `http://rbs.cefcfco.com:6789/api/manage/odata/InterestRateTypeDict(2)`
+      var myRequest = new Request(url, {
+        method: 'GET',
+        headers: Vue.prototype.$api.headers,
+        mode: 'cors',
+        cache: 'default'
+      })
+      fetch(myRequest).then(function (response) {
+        console.log(response)
+        return response.text()
+      }).then(function (myBlob) {
+      })
+    }
+
+    logMsg1() {
+      let url1 = `http://rbs.cefcfco.com:6789/api/manage/odata/InterestRateTypeDict(1)`
+      let url2 = `http://rbs.cefcfco.com:6789/api/manage/odata/InterestRateTypeDict(2)`
+      var myRequest1 = Vue.prototype.$api.request(url1)
+      var myRequest2 = Vue.prototype.$api.request(url2)
+      let myRequests = [myRequest1, myRequest2]
+      Promise.all(myRequests.map(myRequest =>
+        fetch(myRequest).then(resp => resp.json())
+      )).then(texts => {
+        console.log(texts)
+      })
+      fetch(myRequest1).then(function (response) {
+        console.log(response)
+        return response.text()
+      }).then(function (myBlob) {
+        console.log(myBlob)
+      })
     }
   }
 </script>

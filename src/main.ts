@@ -5,20 +5,21 @@ import App from './App.vue'
 import router from './router'
 import store from './vuex/store.js'
 import * as auth from './api/auth/auth.js'
-import urlAppend from 'url-append'
-import {app} from './api/app.js'
+import {$api} from './api/common/commonApi'
+
 let Vue:any = Vues
-import VueResource from 'vue-resource'
-Vue.use(VueResource)
 
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+Vue.use(ElementUI, {size: 'small'})
 
 import iView from 'iview'
 import 'iview/dist/styles/iview.css'
 Vue.use(iView)
 
-Vue.use(ElementUI, {size: 'small'})
+import otable from 'hx-v'
+import 'hx-v/dist/styles/common.css'
+Vue.use(otable)
 
 Vue.config.productionTip = false
 
@@ -32,20 +33,7 @@ let baseUrl = {
 }
 
 Vue.prototype.$baseUrl=baseUrl
-
-Vue.http.options.root = '/root'
-Vue.http.options.before = function (request) {
-  // Url增加一个随机数 处理IE缓存
-  request.url = urlAppend(request.url, {r: Math.random()})
-}
-
-Vue.http.options.progress = function () {
-  // 每个操作前检测是否超时
-  if (!auth.loggedIn()) {
-    location.href = 'login.html'
-    return
-  }
-}
+Vue.prototype.$api= $api
 
 router.beforeEach((to, from, next) => {
   if (!auth.loggedIn()) {
@@ -60,11 +48,6 @@ router.beforeEach((to, from, next) => {
   } else {
     next()
   }
-})
-
-router.afterEach(route => {
-  // 保存进历史
-  app.addHistory(route)
 })
 
 /* eslint-disable no-new */

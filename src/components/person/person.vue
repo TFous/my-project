@@ -179,9 +179,9 @@
 
   .user {
     display: inline-block;
-    position: absolute;
-    height: 60px;
-    right: 0;
+    /*position: absolute;*/
+    /*height: 60px;*/
+    /*right: 0;*/
   }
 
   .user:hover {

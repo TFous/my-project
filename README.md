@@ -1,30 +1,21 @@
-# my-project
+## Fetch DEMO
 
-> A Vue.js project
+```javascript
 
-## Build Setup
-
-``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-
-# run unit tests
-npm run unit
-
-# run e2e tests
-npm run e2e
-
-# run all tests
-npm test
+      let url1 = `http://rbs.cefcfco.com:6789/api/manage/odata/InterestRateTypeDict(1)`
+      let url2 = `http://rbs.cefcfco.com:6789/api/manage/odata/InterestRateTypeDict(2)`
+      var myRequest1 = Vue.prototype.$api.request(url1)
+      var myRequest2 = Vue.prototype.$api.request(url2)
+      let myRequests = [myRequest1, myRequest2]
+      Promise.all(myRequests.map(myRequest =>
+        fetch(myRequest).then(resp => resp.json())
+      )).then(texts => {
+        console.log(texts)
+      })
+      fetch(myRequest1).then(function (response) {
+        console.log(response)
+        return response.text()
+      }).then(function (myBlob) {
+        console.log(myBlob)
+      })
 ```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).

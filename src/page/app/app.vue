@@ -9,25 +9,25 @@
   export default class Apps extends Vue {
     msg: string = '2222222222222222'
 
-    mounted() {
+    mounted () {
       this.setMsg('123')
       this.logMsg()
     }
 
     // computed
-    get computedMsg() {
+    get computedMsg () {
       return 'computed ' + this.msg
     }
 
-    get dic() {
+    get dic () {
       return this.$store.state.dicBook.dic.VarietyDict[0]
     }
 
-    setMsg(msg: string) {
+    setMsg (msg: string) {
       this.$store.dispatch('setDic', {demo: msg})
     }
 
-    logMsg() {
+    logMsg () {
       let dic = this.$store.state.dicBook.dic
       console.log(dic)
     }
