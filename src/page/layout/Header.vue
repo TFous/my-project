@@ -64,6 +64,9 @@
       cursor: pointer;
       margin-right: 40px;
       float: right;
+      .item{
+        color:#fff;
+      }
       &:hover {
         color: #333;
       }

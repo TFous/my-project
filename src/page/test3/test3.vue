@@ -42,7 +42,6 @@
 
     logMsg () {
       let dic = this.$store.state.dicBook.dic
-      console.log(dic)
     }
   }
 </script>

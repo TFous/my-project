@@ -21,6 +21,7 @@
   @Component
   export default class Hello extends Vue {
     msg: string = '2123this is a typescript project now11111'
+
 //    api: any = Vue.prototype.$api
 
     mounted() {
@@ -67,21 +68,25 @@
 
     logMsg1() {
       let url1 = `http://rbs.cefcfco.com:6789/api/manage/odata/InterestRateTypeDict(1)`
-      let url2 = `http://rbs.cefcfco.com:6789/api/manage/odata/InterestRateTypeDict(2)`
+      let url2 = `http://rbs.cefcfco.com:6789/api/manage/odata/StdWarehouseReceiptDetails?$expand=
+      WarehouseDetails($select=WarehouseName),WarehousingCompanyDetails($select=WarehousingCompany)&filter=WarehousingCompany eq 1`
       var myRequest1 = Vue.prototype.$api.request(url1)
       var myRequest2 = Vue.prototype.$api.request(url2)
       let myRequests = [myRequest1, myRequest2]
       Promise.all(myRequests.map(myRequest =>
-        fetch(myRequest).then(resp => resp.json())
+        fetch(myRequest).then(resp => {
+          console.log(resp)
+          return resp.json()
+        })
       )).then(texts => {
         console.log(texts)
       })
-      fetch(myRequest1).then(function (response) {
-        console.log(response)
-        return response.text()
-      }).then(function (myBlob) {
-        console.log(myBlob)
-      })
+//      fetch(myRequest1).then(function (response) {
+//        console.log(response)
+//        return response.text()
+//      }).then(function (myBlob) {
+//        console.log(myBlob)
+//      })
     }
   }
 </script>

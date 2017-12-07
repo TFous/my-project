@@ -162,3 +162,9 @@
 .hx-menu .el-menu--horizontal .el-submenu .el-menu-item{
   padding-left:40px!important;
 }
+
+/*table 下拉筛选*/
+.el-checkbox-group{
+  max-height: 200px;
+  overflow-y: auto;
+}
