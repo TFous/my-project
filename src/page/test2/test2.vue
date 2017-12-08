@@ -7,6 +7,9 @@
       :tableFn="tableFn"
       :options="options"
     ></xtable>
+    <xpagers
+      :options="options"
+    ></xpagers>
     <!--<xadd-->
     <!--:options="options"-->
     <!--&gt;</xadd>-->
@@ -40,7 +43,7 @@
           gridKey: 'NonStdWarehouseReceipt',  // 本页面 Eng名，唯一
           table: [
             {
-              key: 'WarehouseName',
+              key: 'Id',
               title: 'ID',
               addLayer: 'show',
               editLayer: 'show', // 编辑页面 是否显示：不显示写，显示可不写或其他值
@@ -364,6 +367,7 @@
       },
       setTableData (val) {
         let initData = clone(val)
+//        console.log(val)
         let VarietyDict = this.$store.state.VarietyDict.data.value
         let StdWRStatusDict = this.$store.state.StdWRStatusDict.data.value
         initData.forEach(function (item) {
@@ -377,6 +381,9 @@
               item.StdWRStatus = dicItem.Value
             }
           })
+          item.RentSettlementDate = item.RentSettlementDate !== null ? item.RentSettlementDate.split('T')[0] : null
+          item.WarehousingCompany = item.WarehousingCompanyDetails.WarehousingCompany
+          item.Warehouse = item.WarehouseDetails.WarehouseName
         })
         this.$store.dispatch(this.options.gridKey + 'setData', {tableData: initData})
       },
@@ -398,8 +405,6 @@
         }
       },
       deleteRow (scope) {
-        console.log(123)
-        console.log(scope)
       },
       tableFn () {
         return {}
