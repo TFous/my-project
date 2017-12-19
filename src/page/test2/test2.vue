@@ -2,7 +2,30 @@
   <div>
     <xheaderBar
       :options="options"
-    ></xheaderBar>
+    >
+      <span slot="seniorSearch">
+        <el-col :span="6">
+          <el-form-item label="仓储公司">
+              <el-select
+                v-model="state4"
+                multiple
+                filterable
+                remote
+                reserve-keyword
+                placeholder="请输入关键词"
+                :remote-method="remoteMethod"
+                :loading="loading">
+            <el-option
+              v-for="item in list4"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+          </el-form-item>
+        </el-col>
+      </span>
+    </xheaderBar>
     <xtable
       :tableFn="tableFn"
       :options="options"
@@ -26,6 +49,9 @@
       let baseUrl = this.$baseUrl.rbs
       let _this = this
       return {
+        list4: [],
+        state4: '',
+        loading: false,
         inputCopy: null,
         input: null,
         options: Object.assign({}, this.$xvuex.options, {   // options将存入vuex,基础配置看 cVuex.options
@@ -40,7 +66,7 @@
             StdWRStatusDict: baseUrl + '/StdWRStatusDict'
           },
           title: '非标准仓单管理',  // 本页面名称
-          gridKey: 'NonStdWarehouseReceipt',  // 本页面 Eng名，唯一
+          gridKey: 'NonStdWarehouse333Receipt',  // 本页面 Eng名，唯一
           table: [
             {
               key: 'Id',
@@ -50,14 +76,14 @@
               searchKey: 'show', // 搜索下拉 是否显示：不显示写，显示可不写或其他值
               column: 'show',
               width: 'auto',
-              type: 'string'
+              type: 'number'
             },
             {
               key: 'BusinessBatchNo',
               title: '业务流水号',
               add_hide: 'relyOn',  // 新增页面 是否显示：不显示写，显示可不写或其他值
               edit_hide: 1, // 编辑页面 是否显示：不显示写，显示可不写或其他值
-              search_hide: 12, // 搜索下拉 是否显示：不显示写，显示可不写或其他值
+              search_hide: 1, // 搜索下拉 是否显示：不显示写，显示可不写或其他值
               table_hide: 12,
               value: '123',  // 当 add_hide 值为relyOn 时，add时这个为依赖，且有value属性
               width: 180,
@@ -273,30 +299,30 @@
               },
               rules: []
             },
-            {
-              key: 'OperCode',
-              title: '操作员',
-              width: 120,
-              column: 'hiden',
-              edit_hide: 1,
-              search_hide: 1,
-              table_hide: 1,
-              type: '',
-              rules: []
-            },
-            {
-              key: 'IsDelete',
-              title: '是否删除',
-              width: 120,
-              addLayer: 'hide',
-              add_hide: 'relyOn',
-              edit_hide: 1,
-              search_hide: 1,
-              table_hide: 1,
-              value: false,
-              type: '',
-              rules: []
-            },
+//            {
+//              key: 'OperCode',
+//              title: '操作员',
+//              width: 120,
+//              column: 'hiden',
+//              edit_hide: 1,
+//              search_hide: 1,
+//              table_hide: 1,
+//              type: '',
+//              rules: []
+//            },
+//            {
+//              key: 'IsDelete',
+//              title: '是否删除',
+//              width: 120,
+//              addLayer: 'hide',
+//              add_hide: 'relyOn',
+//              edit_hide: 1,
+//              search_hide: 1,
+//              table_hide: 1,
+//              value: false,
+//              type: '',
+//              rules: []
+//            },
             {
               key: 'action',
               title: '操作',
@@ -342,8 +368,38 @@
 
     },
     mounted: function () {
+      console.log(this.debounce)
     },
     methods: {
+      remoteMethod (query) {
+        if (query !== '') {
+          this.loading = true
+          let url = this.$baseUrl.rbs + `/WarehousingCompanyDetails?$filter=contains(WarehousingCompany,'${query}')`
+          // WarehousingCompanyDetails
+          let _this = this
+          let requestDataHeader = this.$api.request(url)
+          fetch(requestDataHeader).then(resp => {
+            return resp.json()
+          }).then(data => {
+            let result = []
+            data.value.forEach(function (item) {
+              let obj = {}
+              obj.label = item.WarehousingCompany
+              obj.value = item.Code
+              result.push(obj)
+            })
+            this.loading = false
+            _this.list4 = result
+            console.log(_this.list4)
+//          return result
+          })
+        } else {
+          this.list4 = []
+        }
+      },
+      handleSelect (item) {
+        console.log(item)
+      },
       setFilters () {
         let _this = this
         let table = clone(this.getState.table)

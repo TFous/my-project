@@ -82,7 +82,7 @@
     position: fixed;
     top: 60px;
     left: 0px;
-    z-index: 99999;
+    z-index: 999;
     box-shadow: rgba(0, 0, 0, .25) 5px 0 5px -5px;
     background: #fff;
     display: none;

@@ -7,6 +7,9 @@ import store from './vuex/store.js'
 import * as auth from './api/auth/auth.js'
 import {$api} from './api/common/commonApi'
 
+import {debounce} from './api/common/debounce.js'
+
+
 let Vue:any = Vues
 
 import ElementUI from 'element-ui'
@@ -34,6 +37,7 @@ let baseUrl = {
 
 Vue.prototype.$baseUrl=baseUrl
 Vue.prototype.$api= $api
+Vue.prototype.debounce= debounce
 
 router.beforeEach((to, from, next) => {
   if (!auth.loggedIn()) {
