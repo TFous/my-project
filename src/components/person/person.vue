@@ -15,7 +15,7 @@
       <div class="person-button">
         <Button class="person-password">
           <a @click="show=true">
-            <Icon type="unlocked"></Icon>
+            <!--<Icon type="unlocked"></Icon>-->
             修改密码
           </a>
         </Button>
@@ -23,40 +23,40 @@
       </div>
     </div>
     <template>
-      <div>
-        <Modal
-          v-model="show"
-          title="修改密码"
-          @on-cancel="show=false"
-          :mask-closable="false"
-          width="600"
-        >
-          <div class="password">
-            <Form ref="formCustom"
-                  :model="formCustom"
-                  :rules="ruleCustom"
-                  :label-width="120">
-              <Row>
-                <Col span="20">
-                <Form-item label="旧密码" prop="OldPassword">
-                  <Input type="password" v-model="formCustom.OldPassword"></Input>
-                </Form-item>
-                <Form-item label="新密码" prop="NewPassword">
-                  <Input type="password" v-model="formCustom.NewPassword"></Input>
-                </Form-item>
-                <Form-item label="确认密码" prop="passwdCheck">
-                  <Input type="password" v-model="formCustom.passwdCheck"></Input>
-                </Form-item>
-                </Col>
-              </Row>
-            </Form>
-          </div>
-          <div slot="footer">
-            <Button @click="show=false">取消</Button>
-            <Button type="primary" @click="handleSubmit('formCustom')">提交修改</Button>
-          </div>
-        </Modal>
-      </div>
+      <!--<div>-->
+        <!--<Modal-->
+          <!--v-model="show"-->
+          <!--title="修改密码"-->
+          <!--@on-cancel="show=false"-->
+          <!--:mask-closable="false"-->
+          <!--width="600"-->
+        <!--&gt;-->
+          <!--<div class="password">-->
+            <!--<Form ref="formCustom"-->
+                  <!--:model="formCustom"-->
+                  <!--:rules="ruleCustom"-->
+                  <!--:label-width="120">-->
+              <!--<Row>-->
+                <!--<Col span="20">-->
+                <!--<Form-item label="旧密码" prop="OldPassword">-->
+                  <!--<Input type="password" v-model="formCustom.OldPassword"></Input>-->
+                <!--</Form-item>-->
+                <!--<Form-item label="新密码" prop="NewPassword">-->
+                  <!--<Input type="password" v-model="formCustom.NewPassword"></Input>-->
+                <!--</Form-item>-->
+                <!--<Form-item label="确认密码" prop="passwdCheck">-->
+                  <!--<Input type="password" v-model="formCustom.passwdCheck"></Input>-->
+                <!--</Form-item>-->
+                <!--</Col>-->
+              <!--</Row>-->
+            <!--</Form>-->
+          <!--</div>-->
+          <!--<div slot="footer">-->
+            <!--<Button @click="show=false">取消</Button>-->
+            <!--<Button type="primary" @click="handleSubmit('formCustom')">提交修改</Button>-->
+          <!--</div>-->
+        <!--</Modal>-->
+      <!--</div>-->
     </template>
   </div>
 </template>

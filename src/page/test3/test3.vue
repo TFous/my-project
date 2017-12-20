@@ -2,14 +2,16 @@
   <div>
     <xheaderBar
       :options="options"
+      :headerFn="headerFn"
     >
-      <span slot="seniorSearch">
+      <template slot="seniorSearch">
         <el-col :span="6">
           <el-form-item label="仓储公司">
               <el-select
                 v-model="state4"
                 filterable
                 remote
+                :clearable="true"
                 @change="remoteMethodChange"
                 reserve-keyword
                 placeholder="请输入关键词"
@@ -30,6 +32,7 @@
                 v-model="state1"
                 filterable
                 remote
+                :clearable="true"
                 @change="remoteMethodChange1"
                 reserve-keyword
                 placeholder="请输入关键词"
@@ -44,7 +47,7 @@
           </el-select>
           </el-form-item>
         </el-col>
-      </span>
+      </template>
     </xheaderBar>
     <xtable
       :tableFn="tableFn"
@@ -58,22 +61,24 @@
       :options="options"
     ></xadd>
     <xedit
+      :editFn="editFn"
       :options="options"
     ></xedit>
   </div>
 </template>
 <script lang="ts">
+  /**
+   *  如果模糊搜索两个相关联。新增和修改页面必须从写
+   */
   import clone from 'clone'
   import Vue from 'vue'
   import Component from 'vue-class-component'
-  import {debounce} from '../../api/common/debounce.js'
   //  let baseUrl = Vue.prototype.$baseUrl.rbs
   @Component({
     watch: {
       'getState.searchBtn': {
         handler: function (val, oldVal) {
           if (oldVal !== val && oldVal !== undefined) {
-            console.log(this.state4)
           }
         },
         deep: true
@@ -97,6 +102,7 @@
     loading: boolean = false
     options: any = (<any>Object).assign({}, Vue.prototype.$xvuex.options, {
       url: Vue.prototype.$baseUrl.rbs + '/StdWarehouseReceiptDetails',
+      delUrl: Vue.prototype.$baseUrl.rbs + '/StdWarehouseReceiptDetails',
       addUrl: Vue.prototype.$baseUrl.rbs + '/StdWarehouseReceipt',
       editUrl: Vue.prototype.$baseUrl.rbs + '/StdWarehouseReceiptDetails',
       urlParameter: {
@@ -125,15 +131,7 @@
         {
           key: 'BusinessBatchNo',
           title: '业务流水号',
-          add_hide: '1',  // 新增页面 是否显示：不显示写，显示可不写或其他值
-//          add_hide: 'relyOn',  // 新增页面 是否显示：不显示写，显示可不写或其他值
-          edit_hide: 1, // 编辑页面 是否显示：不显示写，显示可不写或其他值
-          search_hide: 1, // 搜索下拉 是否显示：不显示写，显示可不写或其他值
-          table_hide: 12,
-          value: '123',  // 当 add_hide 值为relyOn 时，add时这个为依赖，且有value属性
           width: 180,
-          disabled: true,
-          type: '',
           fixed: 'left',
           render: [
             {
@@ -151,8 +149,6 @@
           remoteMethodChange: this.remoteMethodChange,
           remoteMethod: this.remoteMethod,
           remoteList: 'remoteList2',
-          search_hide: 1,
-          filters: [],
           rules: [{required: true, message: '必填'}]
         },
         {
@@ -163,8 +159,6 @@
           remoteMethod: this.remoteMethod1,
           remoteList: 'remoteList1',
           type: 'remoteMethod',
-          filters: [],
-          search_hide: 1,
           rules: [{required: true, message: '必填'}]
         },
         {
@@ -172,7 +166,6 @@
           dicKey: 'StdWRStatusDict',
           title: '仓单流转状态',
           width: 130,
-          search_hide: 11,
           type: 'select',
           filter: true,
           filters: [],
@@ -184,7 +177,6 @@
           dicKey: 'VarietyDict', // 如果有数据字典，必须要有dicKey，指向数据字典路劲
           width: 120,
           type: 'select',
-          search_hide: 1,
           filter: true,
           filters: [],
           rules: [{required: true, message: '必填'}]
@@ -192,109 +184,56 @@
         {
           key: 'RBSWRNo',
           title: '系统仓单号',
-          disabled: true,
-          add_hide: 1,  // 新增页面 是否显示：不显示写，显示可不写或其他值
-          edit_hide: 12, // 编辑页面 是否显示：不显示写，显示可不写或其他值
-          search_hide: 12, // 搜索下拉 是否显示：不显示写，显示可不写或其他值
-          table_hide: 12,
           width: 180,
-          type: '',
-          rules: [{validator: Vue.prototype.$validate.maxLeng, max: 200}]
-        },
-        {
-          key: 'DutyPaidStatus',
-          title: '完税状态',
-          width: 200,
-          add_hide: 123,  // 新增页面 是否显示：不显示写，显示可不写或其他值  relyOn
-          search_hide: 1, // 搜索下拉 是否显示：不显示写，显示可不写或其他值
-          type: 'select',
-          filters: [],
-          rules: [{validator: Vue.prototype.$validate.maxLeng, max: 200}]
-        },
-        {
-          key: 'RBSContractNo',
-          title: '系统合同号',
-          add_hide: 12,  // 新增页面 是否显示：不显示写，显示可不写或其他值
-          edit_hide: 12, // 编辑页面 是否显示：不显示写，显示可不写或其他值
-          search_hide: 12, // 搜索下拉 是否显示：不显示写，显示可不写或其他值
-          table_hide: 12,
-          value: null,  // 当 add_hide 值为relyOn 时，add时这个为依赖，且有value属性
-          width: 180,
-          type: '',
-          rules: [{validator: Vue.prototype.$validate.maxLeng, max: 200}]
-        },
-        {
-          key: 'WRNo',
-          title: '原始仓单号',
-          width: 200,
-          add_hide: 12,  // 新增页面 是否显示：不显示写，显示可不写或其他值
-          edit_hide: 12, // 编辑页面 是否显示：不显示写，显示可不写或其他值
-          search_hide: 12,
-          type: '', // remote
           rules: [{validator: Vue.prototype.$validate.maxLeng, max: 200}]
         },
         {
           key: 'BatchNo',
           title: '批号',
           width: 120,
-          type: '',
-          search_hide: 12,
           rules: [{validator: Vue.prototype.$validate.maxLeng, max: 150, trigger: 'blur'}]
         },
         {
           key: 'Brand',
           title: '商标',
           width: 120,
-          search_hide: 12,
-          type: '',
           rules: [{validator: Vue.prototype.$validate.maxLeng, max: 150, trigger: 'blur'}]
         },
         {
           key: 'ProductionPlace',
           title: '产地',
           width: 120,
-          search_hide: 12,
-          type: '',
           rules: [{validator: Vue.prototype.$validate.maxLeng, max: 150, trigger: 'blur'}]
         },
         {
           key: 'Rank',
           title: '品级',
           width: 160,
-          search_hide: 12,
-          type: '',
           rules: [{validator: Vue.prototype.$validate.maxLeng, max: 150, trigger: 'blur'}]
         },
         {
           key: 'Manufacturer',
           title: '生产商',
           width: 120,
-          search_hide: 12,
-          type: '',
           rules: [{validator: Vue.prototype.$validate.maxLeng, max: 150, trigger: 'blur'}]
         },
         {
           key: 'GoodsAllocation',
           title: '货位',
           width: 120,
-          search_hide: 12,
-          type: '',
           rules: [{validator: Vue.prototype.$validate.maxLeng, max: 150}]
         },
         {
           key: 'Weight',
           title: '重量（吨）',
           width: 120,
-          disabled: true,
-          search_hide: 12,
-          type: '',
+          type: 'number',
           rules: [{required: true, message: '必填'}, {validator: Vue.prototype.$validate.maxLeng, max: 150}]
         },
         {
           key: 'QCDate',
           title: '质检日期',
           width: 120,
-          search_hide: 11,
           type: 'date',
           sortable: 'custom',
           rules: []
@@ -304,7 +243,6 @@
           title: '质检到期日',
           width: 120,
           type: 'date',
-          search_hide: 11,
           sortable: 'custom',
           rules: []
         },
@@ -312,7 +250,6 @@
           key: 'WRExpireDate',
           title: '仓单到期日',
           width: 120,
-          search_hide: 11,
           type: 'date',
           sortable: 'custom',
           rules: []
@@ -321,7 +258,6 @@
           key: 'RentStartDate',
           title: '仓租起始日',
           width: 120,
-          search_hide: 11,
           type: 'date',
           sortable: 'custom',
           rules: []
@@ -330,17 +266,14 @@
           key: 'RentEndDate',
           title: '仓租付止日',
           width: 120,
-          search_hide: 11,
           type: 'date',
           sortable: 'custom',
-          value: null,
           rules: []
         },
         {
           key: 'RentSettlementDate',
           title: '仓租结算日',
           width: 120,
-          search_hide: 11,
           type: 'date',
           sortable: 'custom',
           rules: []
@@ -349,17 +282,13 @@
           key: 'Amount',
           title: '数量（张）',
           width: 120,
-          search_hide: 12,
-          type: '',
-          disabled: true,
+          type: 'number',
           rules: [{required: true, message: '必填'}, {validator: Vue.prototype.$validate.maxLeng, max: 150}]
         },
         {
           key: 'ContractNo',
           title: '合同编号',
           width: 120,
-          search_hide: 12,
-          type: '',
           rules: []
         },
         {
@@ -367,7 +296,6 @@
           title: '仓单来源',
           width: 120,
           type: 'select',
-          search_hide: 1,
           filters: [],
           rules: [{validator: Vue.prototype.$validate.maxLeng, max: 150}]
         },
@@ -375,7 +303,6 @@
           key: 'FromClient',
           title: '来源客户',
           width: 120,
-          search_hide: 12,
           type: '',
           rules: [{validator: Vue.prototype.$validate.maxLeng, max: 150}]
         },
@@ -383,7 +310,6 @@
           key: 'PremiumDiscount',
           title: '升贴水（元/吨）',
           width: 200,
-          search_hide: 12,
           type: 'number',
           rules: [{validator: Vue.prototype.$validate.maxLeng, max: 100}]
         },
@@ -392,7 +318,6 @@
           title: '仓单持有状态',
           width: 130,
           type: 'select',
-          search_hide: 1,
           filters: [],
           rules: [{validator: Vue.prototype.$validate.maxLeng, max: 100}]
         },
@@ -401,9 +326,7 @@
           title: '操作',
           width: 160,
           addLayer: 'hide',  // 新增页面 是否显示：不显示写，显示可不写或其他值
-          edit_hide: 1, // 编辑页面 是否显示：不显示写，显示可不写或其他值
-          search_hide: 1, // 搜索下拉 是否显示：不显示写，显示可不写或其他值
-          type: '',
+          editLayer: 'hide',  // 新增页面 是否显示：不显示写，显示可不写或其他值
           fixed: 'right',
           render: [
             {
@@ -423,24 +346,6 @@
       ]
     })
 
-    getList(query: string) {
-      let url = Vue.prototype.$baseUrl.rbs + `/WarehousingCompanyDetails?$filter=contains(WarehousingCompany,'${query}')`
-      let requestDataHeader = Vue.prototype.$api.request(url)
-      fetch(requestDataHeader).then(resp => {
-        return resp.json()
-      }).then(data => {
-        let result: Array<object> = []
-        data.value.forEach(function (item) {
-          let obj: any = {}
-          obj.label = item.WarehousingCompany
-          obj.value = item.Id
-          result.push(obj)
-        })
-        this.loading = false
-        this.remoteList2 = result
-      })
-    }
-
     remoteMethodChange(val) {
       let otherSeniorSearchOpt = clone(this.getState.otherSeniorSearchOpt)
       let newopt = (<any>Object).assign(otherSeniorSearchOpt, {
@@ -452,7 +357,21 @@
     remoteMethod(query: string) {
       if (query !== '') {
         this.loading = true
-        debounce(this.getList(query), 1200)
+        let url = Vue.prototype.$baseUrl.rbs + `/WarehousingCompanyDetails?$filter=contains(WarehousingCompany,'${query}')`
+        let requestDataHeader = Vue.prototype.$api.request(url)
+        fetch(requestDataHeader).then(resp => {
+          return resp.json()
+        }).then(data => {
+          let result: Array<object> = []
+          data.value.forEach(function (item) {
+            let obj: any = {}
+            obj.label = item.WarehousingCompany
+            obj.value = item.Id
+            result.push(obj)
+          })
+          this.loading = false
+          this.remoteList2 = result
+        })
       } else {
         this.remoteList2 = []
       }
@@ -492,10 +411,6 @@
         Warehouse: val
       })
       this.$store.dispatch(this.options.gridKey + 'setData', {otherSeniorSearchOpt: newopt})
-    }
-
-    handleSelect(item) {
-      console.log(item)
     }
 
     /**
@@ -563,18 +478,6 @@
             _this.$store.dispatch(_this.options.gridKey + '_edit_Window_Visible', item)
           }
         })
-//        try {
-//          for (let item of this.getState.table) {
-//            if (item.type === 'select') {
-//              this.getState[item.key].filter(function (e) {
-//                if (e.label === data[item.key]) {
-//                  data[item.key] = e.values
-//                }
-//              })
-//            }
-//          }
-//        } catch (e) {
-//        }
       }
     }
 
@@ -592,7 +495,6 @@
         fetch(requestDataHeader).then(resp => {
           return resp.json()
         }).then(data => {
-          console.log(data)
           this.$message({
             type: 'success',
             message: '删除成功!'
@@ -601,50 +503,24 @@
       }).catch(() => {
 
       })
-
-//      _this.$Modal.confirm({
-//        title: '删除确认',
-//        content: '此操作将删除该项, 是否继续?',
-//        onOk: function () {
-//          o(_self.options.api).find(row['Id']).remove().save().then(function (data) {
-//            let msg = row.Name ? row.Name + '删除成功' : '删除成功'
-//            _self.$Message.info(msg)
-//            _self.$store.dispatch(_self.options.gridKey + '_set_refresh')
-//            //            删除最后一页 bug
-//            let states = _self.$store.state[_self.options.gridKey]
-//            let pager_CurrentPage = states.pager_CurrentPage
-//            let pager_Total = states.pager_Total
-//            let pageSize = states.pager_Size
-//            if (pager_CurrentPage > 1 && pager_Total % pageSize === 1) {
-//              _self.$store.dispatch(_self.options.gridKey + '_set_state_data', {pager_CurrentPage: pager_CurrentPage - 1})
-//            }
-//          })
-//        }
-//      })
     }
 
+    headerFn() {
+      return {
+      }
+    }
     tableFn() {
       return {}
     }
 
     addFn() {
       return {
-//        handleSubmit(formName) {
-//          let _self = this
-//          let newData = Object.assign({}, _self.dataMsg)
-//          console.log(newData)
-//          this.$refs[formName].validate((valid) => {
-//            if (valid) {
-//
-//            } else {
-//              console.log('error submit!!')
-//              return false;
-//            }
-//          })
-//        }
       }
     }
-
+    editFn() {
+      return {
+      }
+    }
     get getState() {
       return this.$store.state[this.options.gridKey]
     }
